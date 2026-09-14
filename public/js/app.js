@@ -1,3 +1,16 @@
+function togglePasswordVisibility(inputId, btn) {
+    const input = document.getElementById(inputId);
+    if (!input) return;
+    const isHidden = input.type === 'password';
+    input.type = isHidden ? 'text' : 'password';
+    const eyeIcon = btn.querySelector('.eye-icon');
+    const eyeOffIcon = btn.querySelector('.eye-off-icon');
+    if (eyeIcon) eyeIcon.style.display = isHidden ? 'none' : '';
+    if (eyeOffIcon) eyeOffIcon.style.display = isHidden ? '' : 'none';
+    btn.title = isHidden ? 'Hide password' : 'Show password';
+    btn.setAttribute('aria-label', isHidden ? 'Hide password' : 'Show password');
+}
+
 function getToken() {
     return localStorage.getItem('token');
 }

@@ -527,6 +527,49 @@ body.sidebar-collapsed .sidebar { margin-left: -270px; }
 }
 .form-input::placeholder { color: var(--text-secondary); opacity: 0.6; }
 
+/* ==================== PASSWORD TOGGLE ==================== */
+.password-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.password-wrapper .form-input {
+    padding-right: 44px;
+}
+
+.password-toggle-btn {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px;
+    border-radius: var(--radius-sm);
+    transition: color var(--transition-fast), background var(--transition-fast);
+    line-height: 1;
+    outline: none;
+}
+
+.password-toggle-btn:hover {
+    color: var(--accent-color);
+    background: var(--sidebar-hover-bg);
+}
+
+.password-toggle-btn:focus-visible {
+    outline: 2px solid var(--accent-color);
+    outline-offset: 2px;
+}
+
+
+
 .form-row { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
 .form-row.three-col { grid-template-columns: repeat(3, 1fr); }
 @media (max-width: 640px) { .form-row { grid-template-columns: 1fr; } }
