@@ -1,0 +1,30 @@
+# Dependencies
+node_modules/
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Uploads (ignore files but keep directory structure)
+uploads/*
+!uploads/.gitkeep
+!uploads/calendar/
+uploads/calendar/*
+!uploads/calendar/.gitkeep
+!uploads/results/
+uploads/results/*
+!uploads/results/.gitkeep
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS / Editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

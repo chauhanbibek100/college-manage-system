@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jamaitul Banat</title>
+    <meta name="description" content="Jamia Arabia Fatima Lil Banat — School Administration System">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <!-- LOGIN PAGE -->
+    <div id="login-page" class="login-page">
+        <h1>JAMIA ARABIA LILBANAT MADRASA</h1>
+        <h2>Admin Login</h2>
+        <div id="login-error" class="alert alert-error" style="display:none"></div>
+        <form id="login-form">
+            <div class="form-group">
+                <label class="form-label">Username</label>
+                <input type="text" id="login-username" class="form-input" required>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Password</label>
+                <input type="password" id="login-password" class="form-input" required>
+            </div>
+            <button type="submit" class="btn btn-primary" style="width:100%">Login</button>
+        </form>
+    </div>
+
+    <!-- DASHBOARD -->
+    <div id="dashboard" class="dashboard">
+        <!-- TOP BAR (HEADER) -->
+        <header class="topbar">
+            <div class="topbar-left">
+                <button class="topbar-hamburger-btn" onclick="toggleSidebar()" title="Toggle Navigation Menu">
+                    <span class="hamburger-icon">☰</span>
+                </button>
+                <div class="brand-logo-container">
+                    <img src="/logo.jpg" alt="School Logo" class="topbar-logo">
+                </div>
+                <div class="brand-info">
+                    <h1 class="brand-title">JAMIA ARABIA FATIMA LIL BANAT</h1>
+                </div>
+            </div>
+            
+            <div class="topbar-center">
+                <div class="search-bookmark-bar">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" id="topbar-search-input" placeholder="Search & Bookmark your page" oninput="handleNavSearch(this.value)">
+                    <div id="search-dropdown-results" class="search-dropdown-results"></div>
+                </div>
+            </div>
+            
+            <div class="topbar-right">
+                <div class="admin-profile">
+                    <div class="admin-name">Aftab Miya</div>
+                    <div class="admin-contact">9855022905</div>
+                </div>
+                <div class="admin-avatar owner-avatar" title="Aftab Miya">
+                    <img src="/owner.jpg" alt="Aftab Miya">
+                </div>
+            </div>
+        </header>
+
+        <!-- DASHBOARD CONTAINER (SIDEBAR + CONTENT) -->
+        <div class="dashboard-body">
+            <!-- SIDEBAR DRAWER -->
+            <aside class="sidebar" id="app-sidebar">
+                <ul class="sidebar-nav">
+                    <li class="nav-group" id="nav-group-students">
+                        <div class="nav-item active" data-section="students" onclick="navigateTo('students')">
+                            <svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                            <span class="nav-item-title">Students</span>
+                            <span class="chevron-icon">›</span>
+                        </div>
+                        <ul class="sub-nav" id="students-subnav">
+                            <li class="sub-nav-item active" onclick="showStudentSection('add')"><span class="sub-dash">–</span> Add Student</li>
+                            <li class="sub-nav-item" onclick="showStudentSection('manage')"><span class="sub-dash">–</span> Manage Students</li>
+                            <li class="sub-nav-item" onclick="showStudentSection('upgrade')"><span class="sub-dash">–</span> Upgrade Student</li>
+                        </ul>
+                    </li>
+                    <li class="nav-group" id="nav-group-teachers">
+                        <div class="nav-item" data-section="teachers" onclick="navigateTo('teachers')">
+                            <svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                            <span class="nav-item-title">Teachers</span>
+                            <span class="chevron-icon">›</span>
+                        </div>
+                        <ul class="sub-nav" id="teachers-subnav" style="display:none">
+                            <li class="sub-nav-item" onclick="showTeacherSection('add')"><span class="sub-dash">–</span> Add Teacher</li>
+                            <li class="sub-nav-item" onclick="showTeacherSection('manage')"><span class="sub-dash">–</span> Manage Teachers</li>
+                            <li class="sub-nav-item" onclick="showTeacherSection('assign')"><span class="sub-dash">–</span> Assign Subject</li>
+                        </ul>
+                    </li>
+                    <li class="nav-group" id="nav-group-fees">
+                        <div class="nav-item" data-section="fees" onclick="navigateTo('fees')">
+                            <svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                            <span class="nav-item-title">Fees Management</span>
+                        </div>
+                    </li>
+                    <li class="nav-group" id="nav-group-exams">
+                        <div class="nav-item" data-section="exams" onclick="navigateTo('exams')">
+                            <svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+                            <span class="nav-item-title">Examination</span>
+                            <span class="chevron-icon">›</span>
+                        </div>
+                        <ul class="sub-nav" id="exams-subnav" style="display:none">
+                            <li class="sub-nav-item" onclick="showExamSection('datesheet')"><span class="sub-dash">–</span> Date Sheet</li>
+                            <li class="sub-nav-item" onclick="showExamSection('result')"><span class="sub-dash">–</span> Result</li>
+                        </ul>
+                    </li>
+                    <li class="nav-group" id="nav-group-calendar">
+                        <div class="nav-item" data-section="calendar" onclick="navigateTo('calendar')">
+                            <svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                            <span class="nav-item-title">Academic Calendar</span>
+                        </div>
+                    </li>
+                    <li class="nav-group" id="nav-group-settings">
+                        <div class="nav-item" data-section="settings" onclick="navigateTo('settings')">
+                            <svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                            <span class="nav-item-title">Settings</span>
+                        </div>
+                    </li>
+                </ul>
+                <div class="sidebar-footer">
+                    <ul class="sidebar-footer-nav">
+                        <li class="nav-item logout-item" onclick="logout()">
+                            <svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                            <span>Log Out</span>
+                        </li>
+                    </ul>
+                </div>
+            </aside>
+            <div class="sidebar-backdrop" onclick="toggleSidebar()"></div>
+
+            <!-- MAIN WRAPPER -->
+            <div class="main-wrapper">
+
+            <!-- MAIN CONTENT -->
+            <main class="main-content">
+                <!-- STUDENTS SECTION -->
+                <div id="section-students" class="section active">
+                    <h2 class="section-title">Students</h2>
+                    <div id="student-alert"></div>
+                    
+                    <!-- Add Student -->
+                    <div id="student-add" class="sub-section">
+                        <h3>Add New Student</h3>
+                        <form id="add-student-form">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label">Student Name</label>
+                                    <input type="text" id="student-name" class="form-input" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Roll No</label>
+                                    <input type="text" id="student-roll" class="form-input" required>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label">Date of Birth (A.D.)</label>
+                                    <input type="date" id="student-dob" class="form-input">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Registration Date (A.D.)</label>
+                                    <input type="date" id="student-regdate" class="form-input">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Address</label>
+                                <input type="text" id="student-address" class="form-input">
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label">Parent/Contact Info</label>
+                                    <input type="text" id="student-parent" class="form-input">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Class Name</label>
+                                    <input type="text" id="student-class" class="form-input" list="classes-datalist" placeholder="Enter Class Name (e.g. Nursery, Class 1, Hifz)" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Hostler</label>
+                                <div class="radio-group">
+                                    <label class="radio-label">
+                                        <input type="radio" name="student-hostler" id="student-hostler-yes" value="yes">
+                                        <span class="radio-custom"></span>
+                                        <span class="radio-text">Yes</span>
+                                    </label>
+                                    <label class="radio-label">
+                                        <input type="radio" name="student-hostler" id="student-hostler-no" value="no" checked>
+                                        <span class="radio-custom"></span>
+                                        <span class="radio-text">No</span>
+                                    </label>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Add Student</button>
+                        </form>
+                    </div>
+
+                    <!-- Manage Students -->
+                    <div id="student-manage" class="sub-section" style="display:none">
+                        <h3>Manage Students</h3>
+                        <div class="form-group">
+                            <label class="form-label">Filter by Class</label>
+                            <select id="manage-class-select" class="form-select" onchange="loadStudentsByClass()">
+                                <option value="">All Classes</option>
+                            </select>
+                        </div>
+                        <div id="students-table-container">
+                            <p class="empty-state">Select a class to view students</p>
+                        </div>
+                    </div>
+
+                    <!-- Upgrade Student -->
+                    <div id="student-upgrade" class="sub-section" style="display:none">
+                        <h3>Upgrade Students</h3>
+                        <div id="upgrade-alert"></div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Select Current Class</label>
+                                <select id="upgrade-class-select" class="form-select" onfocus="loadAvailableClasses()" onchange="loadStudentsForUpgrade()">
+                                    <option value="">Select Class</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Target Class (Upgrade To)</label>
+                                <input type="text" id="upgrade-target-class" class="form-input" list="classes-datalist" placeholder="Enter Target Class (e.g. Class 2, UKG)">
+                            </div>
+                        </div>
+                        <div style="margin-bottom:16px">
+                            <button type="button" class="btn btn-primary" onclick="batchUpgradeStudents()">Upgrade All in Current Class</button>
+                        </div>
+                        <div id="upgrade-table-container">
+                            <p class="empty-state">Select a class to view students for upgrade</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TEACHERS SECTION -->
+                <div id="section-teachers" class="section">
+                    <h2 class="section-title">Teachers</h2>
+                    <div id="teacher-alert"></div>
+
+                    <!-- Add Teacher -->
+                    <div id="teacher-add" class="sub-section">
+                        <h3>Add New Teacher</h3>
+                        <form id="add-teacher-form">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label">Teacher Name</label>
+                                    <input type="text" id="teacher-name" class="form-input" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Gender</label>
+                                    <select id="teacher-gender" class="form-select">
+                                        <option value="">Select Gender</option>
+                                        <option value="Male">Male</option>
+                                        <option value="Female">Female</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label">Date of Birth (A.D.)</label>
+                                    <input type="date" id="teacher-dob" class="form-input">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Registration Date (A.D.)</label>
+                                    <input type="date" id="teacher-regdate" class="form-input">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Address</label>
+                                <input type="text" id="teacher-address" class="form-input">
+                            </div>
+                            <button type="submit" class="btn btn-primary">Add Teacher</button>
+                        </form>
+                    </div>
+
+                    <!-- Manage Teachers -->
+                    <div id="teacher-manage" class="sub-section" style="display:none">
+                        <h3>All Teachers</h3>
+                        <div id="teachers-table-container">
+                            <p class="empty-state">Loading teachers...</p>
+                        </div>
+                    </div>
+
+                    <!-- Assign Subject -->
+                    <div id="teacher-assign" class="sub-section" style="display:none">
+                        <h3>Assign Subject to Teacher</h3>
+                        <form id="assign-subject-form">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label">Select Teacher</label>
+                                    <select id="assign-teacher-select" class="form-select" required>
+                                        <option value="">Select Teacher</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Subject</label>
+                                    <input type="text" id="assign-subject" class="form-input" required placeholder="e.g. Arabic, Urdu, Maths">
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Assign Subject</button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- FEES SECTION -->
+                <div id="section-fees" class="section">
+                    <h2 class="section-title">Fees Management</h2>
+                    <div id="fee-alert"></div>
+                    <div class="sub-section">
+                        <div class="form-group">
+                            <label class="form-label">Select Class</label>
+                            <select id="fees-class-select" class="form-select" onchange="loadFeesData()">
+                                <option value="">Select Class</option>
+                            </select>
+                        </div>
+                        <div id="fees-table-container">
+                            <p class="empty-state">Select a class to view fee records</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- EXAMINATION SECTION -->
+                <div id="section-exams" class="section">
+                    <h2 class="section-title">Examination</h2>
+                    <div id="exam-alert"></div>
+
+                    <!-- Date Sheet -->
+                    <div id="exam-datesheet" class="sub-section">
+                        <h3>Date Sheet</h3>
+                        <form id="datesheet-form">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label">Class Name</label>
+                                    <input type="text" id="datesheet-class" class="form-input" list="classes-datalist" placeholder="Enter Class Name (e.g. Class 1, Hifz)" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Subject</label>
+                                    <input type="text" id="datesheet-subject" class="form-input" required>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label">Date (A.D.)</label>
+                                    <input type="date" id="datesheet-date" class="form-input" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Time</label>
+                                    <input type="time" id="datesheet-time" class="form-input" required>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Add to Date Sheet</button>
+                        </form>
+                        <div class="form-group" style="margin-top:20px">
+                            <label class="form-label">View Date Sheet for Class</label>
+                            <select id="view-datesheet-class" class="form-select" onchange="loadDateSheet()">
+                                <option value="">Select Class</option>
+                            </select>
+                        </div>
+                        <div id="datesheet-table-container"></div>
+                    </div>
+
+                    <!-- Result -->
+                    <div id="exam-result" class="sub-section" style="display:none">
+                        <h3>Upload Result</h3>
+                        <form id="result-form" enctype="multipart/form-data">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label">Class Name</label>
+                                    <input type="text" id="result-class" class="form-input" list="classes-datalist" placeholder="Enter Class Name (e.g. Class 1, Hifz)" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Result File (PDF/Image)</label>
+                                    <input type="file" id="result-file" class="form-input" accept=".pdf,.jpg,.jpeg,.png" required>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Upload Result</button>
+                        </form>
+                        <div class="form-group" style="margin-top:20px">
+                            <label class="form-label">View Result for Class</label>
+                            <select id="view-result-class" class="form-select" onchange="loadResult()">
+                                <option value="">Select Class</option>
+                            </select>
+                        </div>
+                        <div id="result-display" class="file-display"></div>
+                    </div>
+                </div>
+
+                <!-- ACADEMIC CALENDAR SECTION -->
+                <div id="section-calendar" class="section">
+                    <h2 class="section-title">Academic Calendar</h2>
+                    <div id="calendar-alert"></div>
+                    <div class="sub-section">
+                        <form id="calendar-form" enctype="multipart/form-data">
+                            <div class="form-group">
+                                <label class="form-label">Upload Academic Calendar (PDF/Image)</label>
+                                <input type="file" id="calendar-file" class="form-input" accept=".pdf,.jpg,.jpeg,.png" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Upload Calendar</button>
+                        </form>
+                        <div id="calendar-display" class="file-display" style="margin-top:20px"></div>
+                    </div>
+                </div>
+
+                <!-- SETTINGS SECTION -->
+                <div id="section-settings" class="section">
+                    <h2 class="section-title">Settings</h2>
+                    <div id="settings-alert"></div>
+
+                    <div class="sub-section">
+                        <h3>Change Password</h3>
+                        <form id="change-password-form">
+                            <div class="form-group">
+                                <label class="form-label">Current Password</label>
+                                <input type="password" id="current-password" class="form-input" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">New Password</label>
+                                <input type="password" id="new-password" class="form-input" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Confirm New Password</label>
+                                <input type="password" id="confirm-password" class="form-input" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Change Password</button>
+                        </form>
+                    </div>
+
+                    <div class="sub-section">
+                        <h3>Theme</h3>
+                        <div class="theme-toggle">
+                            <span>Light</span>
+                            <div id="theme-switch" class="switch" onclick="toggleTheme()">
+                                <div class="switch-knob"></div>
+                            </div>
+                            <span>Dark</span>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- EDIT STUDENT MODAL -->
+    <div id="edit-student-modal" class="modal-overlay">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>Edit Student</h3>
+                <button class="modal-close" onclick="closeEditStudentModal()">&times;</button>
+            </div>
+            <form id="edit-student-form">
+                <input type="hidden" id="edit-student-id">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Student Name</label>
+                        <input type="text" id="edit-student-name" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Roll No</label>
+                        <input type="text" id="edit-student-roll" class="form-input" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Date of Birth (A.D.)</label>
+                        <input type="date" id="edit-student-dob" class="form-input">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Registration Date (A.D.)</label>
+                        <input type="date" id="edit-student-regdate" class="form-input">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Address</label>
+                    <input type="text" id="edit-student-address" class="form-input">
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Parent/Contact Info</label>
+                        <input type="text" id="edit-student-parent" class="form-input">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Class Name</label>
+                        <input type="text" id="edit-student-class" class="form-input" list="classes-datalist" placeholder="Enter Class Name" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Hostler</label>
+                    <div class="radio-group">
+                        <label class="radio-label">
+                            <input type="radio" name="edit-student-hostler" id="edit-student-hostler-yes" value="yes">
+                            <span class="radio-custom"></span>
+                            <span class="radio-text">Yes</span>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="edit-student-hostler" id="edit-student-hostler-no" value="no">
+                            <span class="radio-custom"></span>
+                            <span class="radio-text">No</span>
+                        </label>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Save Changes</button>
+                <button type="button" class="btn btn-danger" onclick="deleteStudent()">Delete Student</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- EDIT TEACHER MODAL -->
+    <div id="edit-teacher-modal" class="modal-overlay">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>Edit Teacher</h3>
+                <button class="modal-close" onclick="closeEditTeacherModal()">&times;</button>
+            </div>
+            <form id="edit-teacher-form">
+                <input type="hidden" id="edit-teacher-id">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Teacher Name</label>
+                        <input type="text" id="edit-teacher-name" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Gender</label>
+                        <select id="edit-teacher-gender" class="form-select">
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Date of Birth (A.D.)</label>
+                        <input type="date" id="edit-teacher-dob" class="form-input">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Registration Date (A.D.)</label>
+                        <input type="date" id="edit-teacher-regdate" class="form-input">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Address</label>
+                    <input type="text" id="edit-teacher-address" class="form-input">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Subject</label>
+                    <input type="text" id="edit-teacher-subject" class="form-input">
+                </div>
+                <button type="submit" class="btn btn-primary">Save Changes</button>
+                <button type="button" class="btn btn-danger" onclick="deleteTeacher()">Delete Teacher</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- FEE PAYMENT MODAL -->
+    <div id="fee-payment-modal" class="modal-overlay">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>Record Payment</h3>
+                <button class="modal-close" onclick="closeFeePaymentModal()">&times;</button>
+            </div>
+            <form id="fee-payment-form">
+                <input type="hidden" id="fee-student-id">
+                <input type="hidden" id="fee-student-name-hidden">
+                <input type="hidden" id="fee-class-name">
+                <div id="fee-cycle-notice" class="fee-cycle-notice" style="display:none; margin-bottom:14px;"></div>
+
+                <div class="form-group">
+                    <label class="form-label">Student Name</label>
+                    <input type="text" id="fee-student-display" class="form-input" readonly>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Duration / Months</label>
+                        <select id="fee-months-select" class="form-select" onchange="handleFeeMonthsChange()">
+                            <option value="1" selected>1 Month (Standard)</option>
+                            <option value="2">2 Months</option>
+                            <option value="3">3 Months</option>
+                            <option value="4">4 Months</option>
+                            <option value="5">5 Months</option>
+                            <option value="6">6 Months (Half-Year)</option>
+                            <option value="12">12 Months (Full-Year)</option>
+                            <option value="custom">Custom Months...</option>
+                        </select>
+                    </div>
+                    <div class="form-group" id="fee-custom-months-group" style="display:none">
+                        <label class="form-label">Number of Months</label>
+                        <input type="number" id="fee-custom-months" class="form-input" min="1" max="60" placeholder="e.g. 7" oninput="handleCustomMonthsInput()">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Rate / Month (₹) <span class="muted" style="font-size:11px;font-weight:normal">(Optional)</span></label>
+                        <input type="number" id="fee-monthly-rate" class="form-input" placeholder="e.g. 500" oninput="calculateTotalFee()">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Total Amount (₹)</label>
+                        <input type="number" id="fee-amount" class="form-input" required placeholder="Total Amount">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Payment Date (A.D.)</label>
+                    <input type="date" id="fee-date" class="form-input" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Record Payment</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- RECEIPT MODAL -->
+    <div id="receipt-modal" class="modal-overlay">
+        <div class="modal">
+            <div class="modal-header no-print">
+                <h3>Payment Receipt</h3>
+                <button class="modal-close" onclick="closeReceiptModal()">&times;</button>
+            </div>
+            <div id="receipt-content" class="receipt">
+                <div class="receipt-header">
+                    <img src="/logo.jpg" alt="School Logo" class="receipt-logo">
+                    <h2>JAMIA ARABIA FATIMA LIL BANAT</h2>
+                    <p>Fee Receipt</p>
+                </div>
+                <div class="receipt-body">
+                    <div class="receipt-row">
+                        <span>Receipt No:</span>
+                        <span id="receipt-no"></span>
+                    </div>
+                    <div class="receipt-row">
+                        <span>Date:</span>
+                        <span id="receipt-date"></span>
+                    </div>
+                    <div class="receipt-row">
+                        <span>Student Name:</span>
+                        <span id="receipt-student"></span>
+                    </div>
+                    <div class="receipt-row">
+                        <span>Class:</span>
+                        <span id="receipt-class"></span>
+                    </div>
+                    <div class="receipt-row" id="receipt-period-row">
+                        <span>Period Covered:</span>
+                        <span id="receipt-period">1 Month</span>
+                    </div>
+                    <div class="receipt-row">
+                        <span>Amount Paid:</span>
+                        <span id="receipt-amount"></span>
+                    </div>
+                </div>
+                <div class="receipt-footer">
+                    <img src="/signature.jpg" alt="Authorized Signature" class="receipt-signature">
+                    <p>Authorized Signature</p>
+                </div>
+            </div>
+            <div class="no-print" style="text-align:center;margin-top:16px">
+                <button class="btn btn-primary" onclick="window.print()">Print Receipt</button>
+                <button class="btn btn-secondary" onclick="closeReceiptModal()">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- FEE HISTORY MODAL -->
+    <div id="fee-history-modal" class="modal-overlay fee-history-overlay">
+        <div class="modal fee-history-modal">
+            <div class="modal-header">
+                <h3>Fee History</h3>
+                <button class="modal-close" onclick="closeFeeHistoryModal()">×</button>
+            </div>
+            <div id="fee-history-content">
+                <!-- Populated by JS -->
+            </div>
+        </div>
+    </div>
+
+    <datalist id="classes-datalist"></datalist>
+    <script src="/js/app.js"></script>
+</body>
+</html>
